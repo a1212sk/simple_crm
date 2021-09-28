@@ -5,9 +5,16 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     cellphone_number = models.CharField(max_length=15)
 
+class UserProfile(models.Model):
+    user = models.OneToOneField("User", on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return self.user.username
+
 
 class Agent(models.Model):
     user = models.OneToOneField("User", on_delete=models.CASCADE)
+    oragnization = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.user.email
